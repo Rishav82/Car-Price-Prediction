@@ -2,9 +2,9 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas
-lr1 = pickle.load(open())
-dt1 = pickle.load(open())
-rf1 = pickle.load(open())
+lr1 = pickle.load(open("lr1.pkl", "rb"))
+dt1 = pickle.load(open("dt1.pkl", "rb"))
+rf1 = pickle.load(open("rf1.pkl", "rb"))
 st.title('Insurance Charge Prediction App')
 st.header('Fill the details to generate the Predicted Insurance Charge')
 options = st.sidebar.selectbox('select ML Model', ['Lin_Reg', 'Decision_Tree', 'Random_Forest'])
