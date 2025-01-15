@@ -15,9 +15,9 @@ def load_model(filename):
 
 # Load models
 models = {
-    "Lin_Reg": load_model("lr1.joblib"),
-    "Decision_Tree": load_model("dt1.joblib"),
-    "Random_Forest": load_model("rf1.joblib"),
+    "Lin_Reg": load_model("lr1.pkl"),
+    "Decision_Tree": load_model("dt1.pkl),
+    "Random_Forest": load_model("rf1.pkl"),
 }
 
 # App title and description
