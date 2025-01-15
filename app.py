@@ -14,16 +14,18 @@ def load_model(filename):
         return None
 
 # Load models
-lr1 = load_model("lr1.joblib")
-dt1 = load_model("dt1.joblib")
-rf1 = load_model("rf1.joblib")
+models = {
+    "Lin_Reg": load_model("lr1.joblib"),
+    "Decision_Tree": load_model("dt1.joblib"),
+    "Random_Forest": load_model("rf1.joblib"),
+}
 
 # App title and description
 st.title('Insurance Charge Prediction App')
 st.header('Fill in the details to generate the predicted insurance charge')
 
 # Sidebar for model selection
-options = st.sidebar.selectbox('Select ML Model', ['Lin_Reg', 'Decision_Tree', 'Random_Forest'])
+selected_model = st.sidebar.selectbox('Select ML Model', list(models.keys()))
 
 # Input fields
 age = st.slider('Age', 18, 64, step=1)
@@ -44,15 +46,15 @@ if st.button('Predict'):
     # Prepare input array
     test_input = np.array([age, sex, bmi, children, smoker, region]).reshape(1, -1)
 
-    # Check selected model and make predictions
-    if options == 'Lin_Reg' and lr1:
-        prediction = lr1.predict(test_input)[0]
-        st.success(f"Predicted Insurance Charge (Lin_Reg): ${prediction:.2f}")
-    elif options == 'Decision_Tree' and dt1:
-        prediction = dt1.predict(test_input)[0]
-        st.success(f"Predicted Insurance Charge (Decision_Tree): ${prediction:.2f}")
-    elif options == 'Random_Forest' and rf1:
-        prediction = rf1.predict(test_input)[0]
-        st.success(f"Predicted Insurance Charge (Random_Forest): ${prediction:.2f}")
+    # Get the selected model
+    model = models[selected_model]
+
+    if model:
+        try:
+            # Make prediction
+            prediction = model.predict(test_input)[0]
+            st.success(f"Predicted Insurance Charge ({selected_model}): ${prediction:.2f}")
+        except Exception as e:
+            st.error(f"Error during prediction: {e}")
     else:
-        st.error("Selected model is not loaded or invalid.")
+        st.error(f"The selected model '{selected_model}' could not be loaded.")
